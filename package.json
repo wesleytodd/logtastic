@@ -1,6 +1,6 @@
 {
   "name": "logtastic",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A logger with features",
   "main": "index.js",
   "scripts": {
@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/wesleytodd/logtastic",
   "dependencies": {
-    "loggerr": "^1.0.1",
+    "loggerr": "^1.2.0",
     "minimist": "^1.1.1",
     "on-finished": "^2.2.0"
   }
