@@ -21,7 +21,6 @@ var Logtastic = module.exports = function(options) {
 		var argv = minimist(process.argv, options.parseArgv);
 
 		// Set log level
-		debugger;
 		if (argv.silent) {
 			options.level = Logtastic.SILENT;
 		} else if (argv.debug) {
