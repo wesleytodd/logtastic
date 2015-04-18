@@ -1,0 +1,27 @@
+{
+  "name": "logtastic",
+  "version": "1.0.0",
+  "description": "A logger with features",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wesleytodd/logtastic.git"
+  },
+  "keywords": [
+    "logger"
+  ],
+  "author": "Wes Todd",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wesleytodd/logtastic/issues"
+  },
+  "homepage": "https://github.com/wesleytodd/logtastic",
+  "dependencies": {
+    "loggerr": "^1.0.1",
+    "minimist": "^1.1.1",
+    "on-finished": "^2.2.0"
+  }
+}
