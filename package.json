@@ -1,8 +1,9 @@
 {
   "name": "logtastic",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "A logger with features",
   "main": "index.js",
+  "browser": "browser.js",
   "scripts": {
     "test": "mocha"
   },
@@ -20,7 +21,7 @@
   },
   "homepage": "https://github.com/wesleytodd/logtastic",
   "dependencies": {
-    "loggerr": "^1.2.0",
+    "loggerr": "^1.5.0",
     "minimist": "^1.1.1",
     "on-finished": "^2.2.0"
   }
