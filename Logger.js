@@ -2,7 +2,7 @@ var Loggerr = require('loggerr');
 var util = require('util');
 var onFinished = require('on-finished');
 
-var Logtastic = module.exports = function(options) {
+var Logtastic = module.exports = function (options) {
 	// Setup default options
 	options = options || {};
 
@@ -25,7 +25,7 @@ util.inherits(Logtastic, Loggerr);
 
 // Transfer level constants
 Logtastic.levels = Loggerr.levels;
-Logtastic.levels.forEach(function(level, i) {
+Logtastic.levels.forEach(function (level, i) {
 	Logtastic[level.toUpperCase()] = i;
 });
 Logtastic.SILENT = -1;
@@ -33,7 +33,7 @@ Logtastic.SILENT = -1;
 /**
  * Override log so we can open our filestreams
  */
-Logtastic.prototype.log = function(level, msg, extra, done) {
+Logtastic.prototype.log = function (level, msg, extra, done) {
 	if (this._openFileStreams && this._fileStreamsOpen) {
 		this._fileStreamsOpen = true;
 		this._openFileStreams();
@@ -44,12 +44,12 @@ Logtastic.prototype.log = function(level, msg, extra, done) {
 /**
  * An express style middleware function for logging requests
  */
-Logtastic.prototype.middleware = function(options) {
+Logtastic.prototype.middleware = function (options) {
 	options = options || {};
 	options.immediate = options.immediate || false;
 	options.level = options.level || Logtastic.INFO;
 
-	var doLog = function(req, res) {
+	var doLog = function (req, res) {
 		var msg = [
 			req.ip,
 			req.protocol,
@@ -58,18 +58,18 @@ Logtastic.prototype.middleware = function(options) {
 			res.statusCode,
 			req.get('referrer'),
 			req.get('user-agent')
-		].filter(function(val) {
+		].filter(function (val) {
 			return typeof val !== 'undefined';
 		}).join(' ');
 
 		this[Logtastic.levels[options.level]](msg);
 	}.bind(this);
 
-	return function(req, res, next) {
+	return function (req, res, next) {
 		if (options.immediate) {
 			doLog(req, res);
 		} else {
-			onFinished(res, function() {
+			onFinished(res, function () {
 				doLog(req, res);
 			});
 		}
@@ -80,7 +80,7 @@ Logtastic.prototype.middleware = function(options) {
 /**
  * Start logging uncaught exceptions
  */
-Logtastic.prototype.logUncaught = function(level) {
+Logtastic.prototype.logUncaught = function (level) {
 	// Do we have that level?
 	var logFnc = this[Logtastic.levels[level || Logtastic.EMERGENCY]];
 	if (!logFnc) {
@@ -92,7 +92,7 @@ Logtastic.prototype.logUncaught = function(level) {
 	process.on('uncaughtException', logFnc);
 
 	// Return an off function
-	return function() {
+	return function () {
 		process.removeListener('uncaughtException', logFnc);
 	};
 };

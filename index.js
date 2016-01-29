@@ -1,4 +1,5 @@
 var minimist = require('minimist');
+var fs = require('fs');
 var Logtastic = require('./Logger');
 
 var options = {};
@@ -47,7 +48,7 @@ var log = module.exports = new Logtastic(options);
 
 // If logging to file add open streams method
 if (argv.logToFile) {
-	log._openFileStreams = function() {
+	log._openFileStreams = function () {
 		// Only open the files once
 		if (log._fileStreamsOpen) {
 			return;
@@ -56,7 +57,7 @@ if (argv.logToFile) {
 		log._fileStreamsOpen = true;
 		var stdout = fs.createWriteStream(log.outfile, {flags: 'a'});
 		var stderr = fs.createWriteStream(log.errfile, {flags: 'a'});
-		log.streams = Logtastic.levels.map(function(l, i) {
+		log.streams = Logtastic.levels.map(function (l, i) {
 			return i > Logtastic.WARNING ? stdout : stderr;
 		});
 	};
@@ -67,7 +68,7 @@ log.Logtastic = Logtastic;
 
 // Export the levels
 log.levels = Logtastic.levels;
-Logtastic.levels.forEach(function(level, i) {
+Logtastic.levels.forEach(function (level, i) {
 	log[level.toUpperCase()] = i;
 });
 log.SILENT = -1;

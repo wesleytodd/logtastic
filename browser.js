@@ -11,7 +11,7 @@ log.Logtastic = Logtastic;
 
 // Export the levels
 log.levels = Logtastic.levels;
-Logtastic.levels.forEach(function(level, i) {
+Logtastic.levels.forEach(function (level, i) {
 	log[level.toUpperCase()] = i;
 });
 log.SILENT = -1;
@@ -19,7 +19,7 @@ log.SILENT = -1;
 /**
  * Start logging uncaught exceptions
  */
-log.logUncaught = function(level) {
+log.logUncaught = function (level) {
 	// Do we have that level?
 	var logFnc = log[Logtastic.levels[level || Logtastic.EMERGENCY]];
 	if (!logFnc) {
@@ -27,14 +27,14 @@ log.logUncaught = function(level) {
 	}
 
 	// Bind fnc to this and add listener
-	_oldError = window.onerror;
-	window.onerror = function(msg, url, line, col, error) {
-		logFnc(error || message);
+	var _oldError = window.onerror;
+	window.onerror = function (msg, url, line, col, error) {
+		logFnc(error || msg);
 		typeof _oldError === 'function' && _oldError(msg, url, line, col, error);
-	}
+	};
 
 	// Return an off function
-	return function() {
+	return function () {
 		window.onerror = _oldError;
 	};
 };
