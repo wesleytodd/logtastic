@@ -1,5 +1,8 @@
 # Logtastic
 
+[![NPM Version][npm-image]][npm-url]
+[![NPM Downloads][downloads-image]][downloads-url]
+[![Build Status](https://travis-ci.org/wesleytodd/logtastic.svg?branch=master)](https://travis-ci.org/wesleytodd/logtastic)
 [![js-happiness-style](https://img.shields.io/badge/code%20style-happiness-brightgreen.svg)](https://github.com/JedWatson/happiness)
 
 A logger with the features you need for your app:
@@ -148,3 +151,8 @@ log.logUncaught(log.CRITICAL);
 ```
 
 This method returns a function that will remove the listener.  If you need to disable it during runtime you can do so with that.
+
+[npm-image]: https://img.shields.io/npm/v/logtastic.svg
+[npm-url]: https://npmjs.org/package/logtastic
+[downloads-image]: https://img.shields.io/npm/dm/logtastic.svg
+[downloads-url]: https://npmjs.org/package/logtastic
