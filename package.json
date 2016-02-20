@@ -1,6 +1,6 @@
 {
   "name": "logtastic",
-  "version": "2.1.0",
+  "version": "3.0.0-BETA1",
   "description": "A logger with features for your universal web app",
   "main": "index.js",
   "browser": {
