@@ -1,0 +1,13 @@
+language: node_js
+node_js:
+  - "4.2"
+  - "5.5"
+
+env:
+  global:
+    - SAUCE_USERNAME="logtastic"
+    - secure: "LYd+hctviOQobT/+u0Pzds7mH5sOaYW94Oiy//5npVU0cowVo904Iae7rv+sm1dlDhiEqZlJdK9I4SkqOvFbab10ldOX+P25C2Ns369eBTjk0q08325uK/8YwbyzKrV658Q5iaMAcJUfN0FL0QfN9I7q2HXfisD0P0MJJa9Ns/InAs11sND+NwrGTOG2fOvZCdM9ozc+FbvsPs5Jw6bAH+JlpTXzHqJQ9lS38bmKAJ7sGWiqkVLUzHWwvSgMEGJmJFz7TJXaLhu2+g/J1PFBcI7wLV3Z0J0csDZk0Q8nYcYI8dzEJKwx9LCV5H5SPnruTXURu9nrqi+JpFsYl0JoIAtH3WQwrIMUqsmvc7aR1Wv852QVJIOSw0evq4x36x48+3tShru1tdZR9aZp6/Ywcev98GNSwjibY/umSUgkcDomWPpBh0M0pcdHDKKg493ojE1r/dHt/8Ldw+2jz+IjPArn3m+8TXzGGZWDM71WP6vr5LpoFab1keiO+K0P4WDAvQS0HbASz3lw+77lyr5zjFFm5f5EPQRF/PjUwyE4sFZuLXQf4bHKQhA5UL9YZPfnRuZWs2gQw3QYgj5Vj84pLDrBhmek7/z7PFBMccXYWBT+V9lXwkEUdsEjgGrWRdWe/9EK3NoZiMCQaW/Jp8dw5QopS/bJVS4KP2RCmFHdSJQ="
+
+script:
+  - 'npm test'
+  - 'if [ "x$TRAVIS_NODE_VERSION" = "x5.5" ]; then npm run test-browser; fi'

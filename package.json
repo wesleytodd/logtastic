@@ -1,11 +1,15 @@
 {
   "name": "logtastic",
-  "version": "2.1.0",
-  "description": "A logger with features",
+  "version": "3.0.0-BETA1",
+  "description": "A logger with features for your universal web app",
   "main": "index.js",
-  "browser": "browser.js",
+  "browser": {
+    "./lib": "./lib/browser.js"
+  },
   "scripts": {
-    "test": "happiness"
+    "test": "npm run babel && happiness && mocha --grep 'BROWSER: ' --invert",
+    "test-browser": "npm run babel && mochify --wd --grep 'NODE: ' --invert",
+    "babel": "babel src --out-dir lib"
   },
   "repository": {
     "type": "git",
@@ -21,11 +25,18 @@
   },
   "homepage": "https://github.com/wesleytodd/logtastic",
   "dependencies": {
-    "loggerr": "^1.5.0",
+    "loggerr": "^1.7.0",
     "minimist": "^1.1.1",
-    "on-finished": "^2.2.0"
+    "object-assign": "^4.0.1",
+    "on-finished": "^2.2.0",
+    "parseurl": "^1.3.1",
+    "xhr": "^2.2.0"
   },
   "devDependencies": {
-    "happiness": "github:jedwatson/happiness"
+    "babel-cli": "^6.4.5",
+    "babel-preset-es2015": "^6.3.13",
+    "happiness": "github:jedwatson/happiness",
+    "mocha": "^2.4.5",
+    "mochify": "^2.16.0"
   }
 }
