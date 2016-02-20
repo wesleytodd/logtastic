@@ -1,7 +1,7 @@
 var Loggerr = require('loggerr');
 var addLevels = require('./add-levels');
+var defaultServerLog = require('./default-server-log');
 var util = require('util');
-var xhr = require('xhr');
 
 var Logtastic = module.exports = function Logtastic (options = {}) {
 	// Call the parent constructor
@@ -21,38 +21,7 @@ var Logtastic = module.exports = function Logtastic (options = {}) {
 	this.bufferFlushInterval = options.bufferFlushInterval || 0;
 
 	// A method to log to the server
-	this.serverLog = (function () {
-		// Default log to a url with a POST request
-		if (typeof options.serverLog === 'string') {
-			return function (msg, done) {
-				xhr({
-					method: 'POST',
-					url: options.serverLog,
-					json: {
-						message: msg
-					}
-				}, function (err, resp, body) {
-					if (err) {
-						return done(err);
-					}
-					if (resp.statusCode >= 400) {
-						return done(new Error('Failed to send log to server: got status ' + resp.statusCode));
-					}
-					done();
-				});
-			};
-		}
-
-		// Provide a custom logging method
-		if (typeof options.serverLog === 'function') {
-			return options.serverLog;
-		}
-
-		// Server logging turned off, noop
-		return function (msg, done) {
-			done();
-		};
-	})();
+	this.serverLog = options.serverLog || false;
 };
 util.inherits(Logtastic, Loggerr);
 
@@ -121,7 +90,7 @@ Logtastic.prototype.flushServerLogs = function () {
 	var _logs = this._buffer;
 	this._buffer = [];
 
-	this.serverLog(_logs, function (err) {
+	getServerLogger(this.serverLog)(_logs, function (err) {
 		if (err) {
 			// Re-add logs to buffer and retry on error
 			this._buffer = _logs.concat(this._buffer);
@@ -135,3 +104,20 @@ Logtastic.prototype.scheduleFlush = function () {
 		this.flushServerLogs();
 	}, this.bufferFlushInterval);
 };
+
+function getServerLogger (opt) {
+	// Default log to a url with a POST request
+	if (typeof opt === 'string') {
+		return defaultServerLog(opt);
+	}
+
+	// Provide a custom logging method
+	if (typeof opt === 'function') {
+		return opt;
+	}
+
+	// Server logging turned off, noop
+	return function (msg, done) {
+		done();
+	};
+}
