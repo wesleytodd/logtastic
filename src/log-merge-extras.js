@@ -1,3 +1,5 @@
+var assign = require('object-assign');
+
 module.exports = function (log) {
 	return function (level, msg, extra, done) {
 		// Extra is optional
@@ -5,7 +7,7 @@ module.exports = function (log) {
 			done = extra;
 			extra = {};
 		}
-		extra = Object.assign({}, this.extra, extra || {});
+		extra = assign({}, this.extra, extra || {});
 		log.call(this, level, msg, extra, done);
 	};
 };

@@ -25,7 +25,7 @@ describe('Logger', function () {
 		done();
 	});
 
-	it('logUncaught should add a listener to process', function () {
+	it('NODE: logUncaught should add a listener to process', function () {
 		var logger = new Logger();
 		var off = logger.logUncaught();
 		assert(process._events.uncaughtException);
@@ -50,7 +50,7 @@ describe('Logger', function () {
 		logger.error('Something');
 	});
 
-	it('should return a middleware for logging requests', function (done) {
+	it('NODE: should return a middleware for logging requests', function (done) {
 		var w = writer(function (msg) {
 			assert(msg.indexOf('GET /foobar 200') !== -1);
 			assert(msg.indexOf('"ip":"127.0.0.1"') !== -1);

@@ -95,10 +95,10 @@ Logtastic.prototype._write = function (stream, msg, enc, done) {
 
 Logtastic.prototype.bufferServerLog = function (msg) {
 	// Add to the buffer
-	this.buffer.push(msg);
+	this._buffer.push(msg);
 
 	// If we have reached our max size, flush
-	if (this.buffer.length >= this.bufferFlushSize) {
+	if (this._buffer.length >= this.bufferFlushSize) {
 		return this.flushServerLogs();
 	}
 
@@ -113,18 +113,18 @@ Logtastic.prototype.flushServerLogs = function () {
 	clearTimeout(this._flushTimeout);
 
 	// Only do anything if we have buffered items
-	if (!this.buffer.length) {
+	if (!this._buffer.length) {
 		return;
 	}
 
 	// Clear buffer first
-	var _logs = this.buffer;
-	this.buffer = [];
+	var _logs = this._buffer;
+	this._buffer = [];
 
 	this.serverLog(_logs, function (err) {
 		if (err) {
 			// Re-add logs to buffer and retry on error
-			this.buffer = _logs.concat(this.buffer);
+			this._buffer = _logs.concat(this._buffer);
 			this.scheduleFlush();
 		}
 	}.bind(this));
