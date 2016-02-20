@@ -4,6 +4,7 @@
 [![NPM Downloads][downloads-image]][downloads-url]
 [![Build Status](https://travis-ci.org/wesleytodd/logtastic.svg?branch=master)](https://travis-ci.org/wesleytodd/logtastic)
 [![js-happiness-style](https://img.shields.io/badge/code%20style-happiness-brightgreen.svg)](https://github.com/JedWatson/happiness)
+[![Sauce Test Status](https://saucelabs.com/buildstatus/logtastic)](https://saucelabs.com/u/logtastic)
 
 A logger with the features you need for your "Universal" javascript web app:
 
