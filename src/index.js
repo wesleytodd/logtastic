@@ -1,18 +1,26 @@
-var BaseLogger = require('./base');
+var Loggerr = require('loggerr');
 var addLevels = require('./add-levels');
 var util = require('util');
 var onFinished = require('on-finished');
 var minimist = require('minimist');
+var parseurl = require('parseurl');
+var cliFormatter;
 
 var Logtastic = module.exports = function Logtastic (options = {}) {
+	// Set formatter to cli if we are in a tty and dont have a formatter specified
+	if (!options.formatter && !!process.stdout.isTTY) {
+		options.formatter = cliFormatter = cliFormatter || require('loggerr/formatters/cli');
+	}
+
 	// Call the parent constructor
-	BaseLogger.call(this, {
+	Loggerr.call(this, {
 		level: options.level,
 		streams: options.streams,
-		formatter: options.formatter,
-		bufferFlushSize: options.bufferFlushSize,
-		bufferFlushInterval: options.bufferFlushInterval
+		formatter: options.formatter
 	});
+
+	// Logger global extras
+	this.extra = options.extra || {};
 
 	// Parse args?
 	this.minimistOpts = options.minimistOpts || {
@@ -25,17 +33,19 @@ var Logtastic = module.exports = function Logtastic (options = {}) {
 			'silent'
 		],
 		alias: {
-			f: 'logToFile',
 			l: 'logLevel',
 			v: 'verbose',
 			s: 'silent'
 		}
 	};
 };
-util.inherits(Logtastic, BaseLogger);
+util.inherits(Logtastic, Loggerr);
 
 // Transfer level constants
 addLevels(Logtastic);
+
+// Overwrite log to merge in logger extras
+Logtastic.prototype.log = require('./log-merge-extras')(Loggerr.prototype.log);
 
 /**
  * Parse cli args
@@ -88,19 +98,24 @@ Logtastic.prototype.middleware = function (options) {
 	options.level = options.level || Logtastic.INFO;
 
 	var doLog = function (req, res) {
+		// Get the url from the request
+		var url = parseurl(req);
+
 		var msg = [
-			req.ip,
-			req.protocol,
 			req.method,
-			req.originalUrl,
-			res.statusCode,
-			req.get('referrer'),
-			req.get('user-agent')
+			url.format(),
+			res.statusCode
 		].filter(function (val) {
 			return typeof val !== 'undefined';
 		}).join(' ');
 
-		this[Logtastic.levels[options.level]](msg);
+		var extra = {
+			ip: req.ip,
+			referrer: req.get('referrer'),
+			userAgent: req.get('user-agent')
+		};
+
+		this[Logtastic.levels[options.level]](msg, extra);
 	}.bind(this);
 
 	return function (req, res, next) {
