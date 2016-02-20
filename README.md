@@ -13,7 +13,7 @@ A logger with the features you need for your "Universal" javascript web app:
 - Log uncaught exceptions (in both browser and node)
 - Express style middleware to log http requests
 - Log to a server endpoint in the browser
-- Add data to all logs globally (ex. process.pid or window.navigator.userAgent)
+- Add data to all logs globally (ex. `process.pid` or `window.navigator.userAgent`)
 - Customizeable log formats
 
 ## Install
