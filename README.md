@@ -130,7 +130,7 @@ If these arguments conflict with something else in your application you can easi
 var Logger = require('logtastic').Logtastic;
 
 var logger = new Logger({
-	parseArgv: {
+	minimistOpts: {
 		string: [
 			'logLevel'
 		],
